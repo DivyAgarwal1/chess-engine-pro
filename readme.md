@@ -3,14 +3,12 @@
 A fully playable chess game built with **vanilla JavaScript** — no frameworks, no libraries. Features a custom AI opponent powered by the **Minimax algorithm with Alpha-Beta Pruning**.
 
 ![Chess Engine Pro](./images/preview.png)
-> *Add a screenshot of your game here. Press F12 → right-click the board → "Capture screenshot"*
 
 ---
 
 ## 🚀 Live Demo
 
-**[▶ Play it here](https://YOUR-USERNAME.github.io/chess-engine-pro)**
-> *Replace with your actual GitHub Pages link after deploying*
+**[▶ Play the live game here](https://DivyAgarwal1.github.io/chess-engine-pro/)**
 
 ---
 
@@ -86,7 +84,7 @@ No build step needed. Just open the file:
 
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR-USERNAME/chess-engine-pro.git
+git clone https://github.com/DivyAgarwal1/chess-engine-pro.git
 
 # Open in browser
 cd chess-engine-pro
@@ -127,9 +125,8 @@ xdg-open index.html    # Linux
 
 ## 👤 Author
 
-**Your Name**  
-3rd Year B.Tech — [Your College]  
-[LinkedIn](https://linkedin.com/in/your-profile) · [GitHub](https://github.com/YOUR-USERNAME)
+**Divy Agarwal** 3rd Year B.Tech Student  
+👉 [LinkedIn](https://www.linkedin.com/in/divy-agarwal-066131319/) · [GitHub](https://github.com/DivyAgarwal1)
 
 ---
 
