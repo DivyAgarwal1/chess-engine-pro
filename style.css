@@ -1,0 +1,354 @@
+body {
+    background: radial-gradient(circle at top, #2c2b24 0%, #121211 100%);
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    color: #e4e4e4;
+}
+
+.ctrl-divider {
+    width: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 4px 4px;
+}
+
+.ctrl-btn {
+    padding: 8px 14px;
+    cursor: pointer;
+    background: transparent;
+    color: #bababa;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.82rem;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.ctrl-btn:hover {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border-color: rgba(255,255,255,0.2);
+}
+
+.ctrl-btn.danger {
+    border-color: rgba(180, 60, 60, 0.4);
+    color: #c88;
+}
+
+.ctrl-btn.danger:hover {
+    background: rgba(180, 60, 60, 0.2);
+    color: #f99;
+    border-color: rgba(180, 60, 60, 0.7);
+}
+
+.ctrl-btn.sound-off {
+    opacity: 0.45;
+    text-decoration: line-through;
+}
+
+/* Flipped board */
+.main-container.flipped {
+    transform: rotate(180deg);
+}
+.main-container.flipped .square-common {
+    transform: rotate(180deg);
+}
+
+#ui-controls {
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: rgba(38, 37, 34, 0.6);
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Dropdown mode selector */
+.mode-select {
+    padding: 8px 14px;
+    background: #1e1d1a;
+    color: #e4e4e4;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23bababa' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+}
+.mode-select:hover, .mode-select:focus {
+    border-color: #769656;
+    background-color: #2a2927;
+}
+.mode-select option {
+    background: #1e1d1a;
+    color: #e4e4e4;
+}
+
+/* Keep .mode-btn for the "New Game" button that appears after game over */
+.mode-btn {
+    padding: 10px 20px;
+    cursor: pointer;
+    background: #769656;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(118, 150, 86, 0.3);
+}
+.mode-btn:hover {
+    background: #88a86a;
+}
+
+.game-wrapper {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 950px;
+    width: 100%;
+    padding: 0 20px;
+}
+
+/* --- THE CHESSBOARD --- */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+    height: 560px;
+    width: 560px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    border: 4px solid #262522;
+    flex-shrink: 0;
+}
+
+.rank-style { width: 560px; height: 70px; display: flex; }
+
+.square-common {
+    width: 70px; height: 70px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; user-select: none;
+}
+
+.color-dark { background-color: #769656; }
+.color-light { background-color: #EEEED2; }
+
+/* Soft yellow background highlight for the selected piece */
+.highlight { background-color: rgba(247, 247, 105, 0.5) !important; }
+
+img { width: 88%; height: 88%; pointer-events: none; z-index: 6; }
+
+/* Standard Move Indicator (Dot) */
+.circle {
+    width: 22px; height: 22px;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 50%; pointer-events: none;
+    position: absolute; z-index: 10;
+}
+
+/* --- THE RED CAPTURE INDICATOR (THE FIX) --- */
+.capture-ring {
+    width: 62px; height: 62px;
+    border: 5px solid rgba(213, 53, 53, 0.85);
+    border-radius: 50%;
+    position: absolute;
+    z-index: 10;
+    pointer-events: none;
+    box-sizing: border-box;
+    animation: pulseAttack 1.5s infinite ease-in-out;
+}
+
+@keyframes pulseAttack {
+    0% { transform: scale(0.96); opacity: 0.8; }
+    50% { transform: scale(1.02); opacity: 1; }
+    100% { transform: scale(0.96); opacity: 0.8; }
+}
+
+/* --- MODERNIZED SIDE PANEL --- */
+.dashboard-panel {
+    width: 320px;
+    height: 560px;
+    background: #262522;
+    border-radius: 8px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.clocks-container {
+    display: flex;
+    gap: 12px;
+}
+
+.clock-card {
+    flex: 1;
+    background: #1e1d1a;
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.4);
+    transition: border 0.3s ease;
+}
+
+.clock-card.white-player { border-top: 4px solid #ffffff; }
+.clock-card.black-player { border-top: 4px solid #45423e; }
+
+.clock-card .label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #8b8986;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.clock-card .timer {
+    font-size: 1.6rem;
+    font-family: "Courier New", Courier, monospace;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Move Log Module */
+.move-log-card {
+    flex: 1;
+    background: #1e1d1a;
+    border-radius: 6px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.move-log-card h3 {
+    margin: 0 0 12px 0;
+    color: #989795;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.moves-container {
+    flex: 1;
+    overflow-y: auto;
+    font-family: 'SFMono-Regular', Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.85rem;
+    color: #c5c5c5;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-right: 4px;
+}
+
+/* Elegant scrollbar styling */
+.moves-container::-webkit-scrollbar { width: 6px; }
+.moves-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+.moves-container::-webkit-scrollbar-thumb { background: #383734; border-radius: 3px; }
+.moves-container::-webkit-scrollbar-thumb:hover { background: #454440; }
+
+.move-line {
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    border-left: 3px solid transparent;
+    transition: all 0.15s ease;
+}
+.move-line:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-left-color: #769656;
+    color: #fff;
+}
+
+/* Dynamic Turn Announcement Strip */
+#turn-indicator {
+    background: #312e2b;
+    color: #dadada;
+    text-align: center;
+    padding: 12px;
+    font-weight: bold;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+/* ── AI Thinking Indicator ─────────────────────────────────── */
+#turn-indicator.ai-thinking {
+    background: #1a3a1a !important;
+    color: #7cba7c !important;
+    animation: aiPulse 1.2s infinite ease-in-out;
+}
+@keyframes aiPulse {
+    0%, 100% { opacity: 0.8; }
+    50%       { opacity: 1;   }
+}
+
+/* ── Castling Hint: distinguish castle moves from plain moves ── */
+.castle-indicator {
+    width: 20px; height: 20px;
+    border: 3px solid rgba(100, 170, 255, 0.7);
+    border-radius: 4px;
+    position: absolute;
+    z-index: 10;
+    pointer-events: none;
+    animation: castlePulse 1.5s infinite ease-in-out;
+}
+@keyframes castlePulse {
+    0%, 100% { opacity: 0.6; transform: scale(0.95); }
+    50%       { opacity: 1;   transform: scale(1.05); }
+}
+
+/* ── SAN Move Log: paired white/black columns ─────────────────────────────── */
+.move-line {
+    /* override the old flex justify-content:space-between */
+    display: grid;
+    grid-template-columns: 28px 1fr 1fr;
+    align-items: center;
+    gap: 4px;
+}
+
+.move-num {
+    color: #5a5855;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-align: right;
+    padding-right: 4px;
+}
+
+.san-token {
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-family: 'SFMono-Regular', Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.87rem;
+    color: #d5d3d0;
+    letter-spacing: 0.02em;
+}
+
+.move-white { background: rgba(255,255,255,0.04); }
+.move-black { background: transparent; color: #a0a09e; }
+
+.move-line:hover .san-token { color: #fff; }

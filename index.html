@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chess Engine Pro</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="./game.js"></script>
+  </head>
+  <body>
+    <div id="ui-controls">
+        <select id="mode-select" class="mode-select">
+            <option value="pp">Pass &amp; Play</option>
+            <option value="ai1">AI — Level 1 (Random)</option>
+            <option value="ai2">AI — Level 2 (Greedy)</option>
+            <option value="ai3">AI — Level 3 (Minimax)</option>
+            <option value="ai4">AI — Level 4 (Deep)</option>
+        </select>
+        <div class="ctrl-divider"></div>
+        <button id="btn-new"    class="ctrl-btn" title="New Game">&#x21BA; New</button>
+        <button id="btn-undo"   class="ctrl-btn" title="Undo Last Move">&#x21A9; Undo</button>
+        <button id="btn-flip"   class="ctrl-btn" title="Flip Board">&#x21C5; Flip</button>
+        <button id="btn-sound"  class="ctrl-btn" title="Toggle Sound">&#x1F50A; Sound</button>
+        <button id="btn-resign" class="ctrl-btn danger" title="Resign">&#x2691; Resign</button>
+    </div>
+
+    <div class="game-wrapper">
+      <div class="main-container"></div>
+
+      <div class="dashboard-panel">
+        <div class="clocks-container">
+          <div class="clock-card white-player">
+            <span class="label">WHITE</span>
+            <span id="white-clock" class="timer">10:00</span>
+          </div>
+          <div class="clock-card black-player">
+            <span class="label">BLACK</span>
+            <span id="black-clock" class="timer">10:00</span>
+          </div>
+        </div>
+
+        <div class="move-log-card">
+          <h3>Move History</h3>
+          <div id="move-list" class="moves-container"></div>
+        </div>
+
+        <div id="turn-indicator">Turn: WHITE</div>
+      </div>
+    </div>
+  </body>
+</html>
