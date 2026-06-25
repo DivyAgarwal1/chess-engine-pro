@@ -8,8 +8,7 @@ A fully playable chess game built with **vanilla JavaScript** — no frameworks,
 
 ## 🚀 Live Demo
 
-**[▶ Play the live game here](https://DivyAgarwal1.github.io/chess-engine-pro/)**
-
+**[▶ Play the live game here](https://divyagarwal1.github.io/chess-engine-pro/)**
 ---
 
 ## ✨ Features
